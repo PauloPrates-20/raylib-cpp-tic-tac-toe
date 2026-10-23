@@ -3,14 +3,9 @@
 #include "raylib.h"
 #include "colors.h"
 
-static void DrawFrame() {
-    const float lineThick = 5.0f;
-    const Rectangle rec{1*g_cellSize/2 + lineThick/2, 1*g_cellSize/2 + lineThick/2, (g_cellCount - 1)*g_cellSize - lineThick/2, (g_cellCount - 1)*g_cellSize - lineThick/2};
-
-    DrawRectangleLinesEx(rec, lineThick, g_spriteColor);
-}
-
 Game::Game() {
+    const float lineThick = 5.0f;
+    frame = Rectangle{1*g_cellSize/2 + lineThick/2, 1*g_cellSize/2 + lineThick/2, (g_cellCount - 1)*g_cellSize - lineThick/2, (g_cellCount - 1)*g_cellSize - lineThick/2};
     InitWindow(g_wWidth, g_wHeight, g_wTitle);
     SetTargetFPS(60);
 
@@ -32,7 +27,8 @@ void Game::Draw() {
     BeginDrawing();
 
     ClearBackground(g_bg);
-    DrawFrame();
+    DrawRectangleLinesEx(frame, 5.0f, g_spriteColor);
+    ShowTurn();
 
     board.Draw();
 
@@ -40,8 +36,17 @@ void Game::Draw() {
 }
 
 void Game::Update() {
-    board.Update((turn % 2)? 'O' : 'X', turn);
+    symbol = (turn % 2)? 'O' : 'X';
+    board.Update(symbol, turn);
     if(turn == 9) {
         state = DRAW;
     }
+}
+
+void Game::ShowTurn() {
+    const float padding = 10.0f;
+    const float x = frame.x + padding;
+    const float y = frame.y + padding;
+
+    DrawText(TextFormat("Turn: %c", symbol), x, y, g_cellSize/2, g_spriteColor);
 }
