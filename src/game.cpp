@@ -3,6 +3,13 @@
 #include "raylib.h"
 #include "colors.h"
 
+static void DrawFrame() {
+    const float lineThick = 5.0f;
+    const Rectangle rec{1*g_cellSize/2 + lineThick/2, 1*g_cellSize/2 + lineThick/2, (g_cellCount - 1)*g_cellSize - lineThick/2, (g_cellCount - 1)*g_cellSize - lineThick/2};
+
+    DrawRectangleLinesEx(rec, lineThick, g_spriteColor);
+}
+
 Game::Game() {
     InitWindow(g_wWidth, g_wHeight, g_wTitle);
     SetTargetFPS(60);
@@ -25,6 +32,7 @@ void Game::Draw() {
     BeginDrawing();
 
     ClearBackground(g_bg);
+    DrawFrame();
 
     board.Draw();
 
