@@ -1,7 +1,7 @@
 #pragma once
 
-#include <cstdint>
 #include "board.h"
+#include <cstdint>
 
 enum GameStates {
     RUNNING,
@@ -13,16 +13,12 @@ enum GameStates {
 class Game {
 public:
     Game();
-    void Loop();
-    void Draw();
-    void Update();
+    void Run();
 
 private:
     uint8_t turn = 0;
-    char symbol = 'O';
-    Rectangle frame;
     Board board;
     GameStates state = RUNNING;
-
-    void ShowTurn();
+    void Draw();
+    void Update();
 };
